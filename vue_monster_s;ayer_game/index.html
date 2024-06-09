@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue Basics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>Monster Slayer</h1>
+  </header>
+  <div id="game">
+    <section id="monster" class="container">
+      <h2>Monster Health</h2>
+      <div class="healthbar">
+        <div class="healthbar__value" :style="monsterbar"></div>
+      </div>
+    </section>
+    <section id="player" class="container">
+      <h2>Your Health</h2>
+      <div class="healthbar">
+        <div class="healthbar__value" :style="attackerbar"></div>
+      </div>
+    </section>
+    <section id="'endresult" class="container" v-if="result">
+      <h2>Game Over</h2>
+      <h3 v-if="result==='monster'">you lost</h3>
+      <h3 v-else-if="result==='player'">you won</h3>
+      <h3 v-else>its a draw</h3>
+      <button @click="startagain">start again</button>
+    </section>
+    <section id="controls" v-else>
+      <button @click="monsterattack">ATTACK</button>
+      <button :disabled="checkdisable" @click="specialattack">SPECIAL ATTACK</button>
+      <button @click="healing">HEAL</button>
+      <button @click="surrender">SURRENDER</button>
+    </section>
+    <section id="log" class="container">
+      <h2>Battle Log</h2>
+      <ul>
+        <li v-for="log in logarray">
+          <span :class="{'log--player':log.actionby==='player','log--monster':log.actionby==='monster'}">
+            {{log.actionby==='player'?'Player ':'Monster '}}</span>
+          <span v-if="log.actiontype==='heal'">heals for <span class="log--heal">{{log.value}}</span></span>
+          <span v-else>attacks for <span class="log--damage">{{log.value}}</span></span>
+        </li>
+      </ul>
+    </section>
+  </div>
+</body>
+
+</html>
